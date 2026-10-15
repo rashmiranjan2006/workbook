@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GenAxle Technical Handbook · Version 1</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Instrument+Sans:wght@400;600&display=swap">
+<style>
+:root{--bg:#f4f5fa;--page:#fff;--ink:#1a1d3a;--mute:#5d6283;--line:#d9dcec;--acc:#2f3dbd;--hi:#f0b429;--code:#eceefa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1020;--page:#161933;--ink:#e8eaf8;--mute:#9aa0c7;--line:#2b2f55;--acc:#8c98ff;--hi:#f0b429;--code:#1f2347}}
+:root[data-theme="dark"]{--bg:#0e1020;--page:#161933;--ink:#e8eaf8;--mute:#9aa0c7;--line:#2b2f55;--acc:#8c98ff;--hi:#f0b429;--code:#1f2347}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Newsreader,Georgia,serif}
+.cover{min-height:100vh;display:grid;align-content:center;padding:8vw;background:linear-gradient(160deg,#1a1d3a 0 62%,#2f3dbd);color:#f4f5fa;position:relative}
+.cover:after{content:"";position:absolute;right:8vw;top:0;bottom:0;width:10px;background:var(--hi)}
+.cover small{font:600 14px Instrument Sans,sans-serif;letter-spacing:.04em;color:#b9bff0}
+.cover h1{font-size:clamp(48px,9vw,112px);line-height:.98;margin:.3em 0 .2em;font-weight:600;max-width:9em}
+.cover p{max-width:34em;color:#cfd3f5;font-size:21px}
+.meta{margin-top:40px;font:14px Instrument Sans,sans-serif;color:#b9bff0;display:grid;gap:4px}
+.wrap{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:40px;padding:0 20px}
+nav{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:32px 0;font:14px/1.4 Instrument Sans,sans-serif}
+nav b{display:block;margin-bottom:10px}
+nav a{display:block;padding:6px 10px;color:var(--mute);text-decoration:none;border-left:2px solid var(--line)}
+nav a:hover{color:var(--acc);border-color:var(--acc)}
+main{padding:32px 0 80px}
+section{background:var(--page);border:1px solid var(--line);border-radius:4px;padding:48px 56px;margin-bottom:28px;box-shadow:6px 0 0 -2px var(--line)}
+.ch{font:600 15px Instrument Sans,sans-serif;color:var(--acc)}
+h2{font-size:38px;line-height:1.15;margin:.1em 0 .6em;font-weight:600}
+h3{font:600 17px Instrument Sans,sans-serif;margin:1.8em 0 .4em}
+p{margin:.7em 0;max-width:68ch}
+ul{padding-left:1.2em;max-width:70ch}li{margin:.3em 0}
+.tw{overflow-x:auto;margin:1em 0}
+table{border-collapse:collapse;width:100%;font:14.5px/1.5 Instrument Sans,sans-serif;min-width:520px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--code)}
+code{font:13.5px ui-monospace,Menlo,monospace;background:var(--code);padding:1px 5px;border-radius:3px}
+.note{border-left:4px solid var(--hi);background:var(--code);padding:12px 18px;margin:1.2em 0;font:15px/1.6 Instrument Sans,sans-serif}
+.pill{font:600 12px Instrument Sans,sans-serif;padding:2px 8px;border-radius:99px;background:var(--code);color:var(--acc)}
+pre.mermaid{overflow-x:auto;background:var(--code);padding:16px;border-radius:4px;font-size:13px}
+footer{text-align:center;padding:40px 20px 60px;font:14px Instrument Sans,sans-serif;color:var(--mute)}
+@media(max-width:860px){.wrap{display:block}nav{position:static;max-height:none;padding:20px 0}section{padding:28px 22px}h2{font-size:30px}.cover:after{display:none}}
+</style></head><body>
+
+<header class="cover">
+<small>Engineering Reference · Version 1.0</small>
+<h1>GenAxle Technical Handbook</h1>
+<p>The complete record of the MVP: architecture, code map, data, business rules, security, operations and the road ahead.</p>
+<div class="meta"><span>Verified October 15, 2026</span><span>Baseline: commit 53d2120 (main)</span><span>Stack: React 19 · Express 5 · MongoDB · Socket.IO</span></div>
+</header>
+
+<div class="wrap">
+<nav aria-label="Contents"><b>Contents</b>
+<a href="#c1">1 Product overview</a><a href="#c2">2 Architecture</a><a href="#c3">3 Repository map</a><a href="#c4">4 Technology stack</a><a href="#c5">5 Frontend</a><a href="#c6">6 Backend</a><a href="#c7">7 API reference</a><a href="#c8">8 Data models</a><a href="#c9">9 Feature catalog</a><a href="#c10">10 Business rules</a><a href="#c11">11 Security</a><a href="#c12">12 Dev setup</a><a href="#c13">13 Deployment</a><a href="#c14">14 Testing</a><a href="#c15">15 Troubleshooting</a><a href="#c16">16 Integrations</a><a href="#c17">17 Data lifecycle</a><a href="#c18">18 Assessment and roadmap</a><a href="#c19">19 Glossary</a></nav>
+<main>
+
+<section id="c1"><div class="ch">Chapter 1</div><h2>Product overview</h2>
+<p>GenAxle is a two-sided, performance-driven marketplace and affiliate platform. Companies publish offers and receive verified leads. Earners share offers, submit customer leads and earn commission when deals close. Admins audit leads, verify payments and operate the platform.</p>
+<h3>MVP boundaries</h3>
+<ul><li>Marketplace discovery by industry category, public and signed in.</li><li>Separate registration and onboarding for Companies, Earners, Campus Marketing Champions (CMC) and Influencers.</li><li>Lead pipeline: Lead Submitted, Under Review, Approved, Deal Closed, Commission Pending, Payment Sent, Commission Paid, or Rejected.</li><li>48-hour approval window with live countdown clocks.</li><li>Two-sided payment verification: company proof of payment, earner proof of receipt, then admin approval.</li><li>Admin Private Room with a secondary key and immutable audit logs.</li><li>Socket.IO chat between companies and earners, tied to leads.</li></ul>
+<h3>Roles</h3>
+<div class="tw"><table><tr><th>Role</th><th>Key</th><th>Responsibilities</th><th>Entry routes</th></tr>
+<tr><td>Visitor</td><td>none</td><td>Browse landing page, marketplace, policies; register.</td><td><code>/</code> <code>/marketplace</code> <code>/register</code></td></tr>
+<tr><td>Earner</td><td><code>earner</code></td><td>Find offers, submit leads, chat, withdraw earnings.</td><td><code>/earner</code></td></tr>
+<tr><td>Company</td><td><code>company</code></td><td>Publish offers, triage leads, close deals, upload payment proof.</td><td><code>/company</code></td></tr>
+<tr><td>Admin</td><td><code>admin</code></td><td>Moderate, arbitrate disputes, verify payments, audit.</td><td><code>/admin</code> <code>/admin/private</code></td></tr>
+<tr><td>CMC</td><td><code>cmc</code></td><td>Student promoters submitting promo videos for rewards.</td><td><code>/cmc/dashboard</code></td></tr>
+<tr><td>Influencer</td><td><code>influencer</code></td><td>Creators promoting campaigns, tracked in a ledger.</td><td><code>/career/dashboard</code></td></tr></table></div>
+<h3>Key design decisions</h3>
+<ul><li>Frontend is a static SPA; backend is a stateless REST API.</li><li>Dual-token auth: short-lived access token in memory, 7-day refresh token in an httpOnly cookie.</li><li>Identity (<code>User</code>) is separate from role profiles (<code>Earner</code>, <code>Company</code>, <code>CMC</code>, <code>Influencer</code>), linked by <code>userId</code>.</li><li>Private Room uses its own token (<code>x-private-room-token</code>) and server-side timeouts.</li><li>On company verification, the backend generates a PDF registration certificate with PDFKit and attaches the Business Partner Kit.</li></ul></section>
+
+<section id="c2"><div class="ch">Chapter 2</div><h2>System architecture</h2>
+<p>A decoupled client-server design: a React SPA on Vercel, a modular monolith Express API with Socket.IO, MongoDB Atlas for data, Cloudinary for logos and Resend (SMTP fallback) for email. The ChatWidget calls Groq directly from the browser.</p>
+<pre class="mermaid">flowchart LR
+Browser["React 19 SPA"] -->|REST + JWT| API["Express API"]
+Browser -->|WSS| Socket["Socket.IO"]
+API --> DB[("MongoDB Atlas")]
+API --> Cloud["Cloudinary"]
+API --> Mail["Resend / SMTP"]
+Browser -.-> Groq["Groq AI"]
+Socket -.-> API</pre>
+<h3>Request lifecycle</h3>
+<p>Every call goes through the Axios client in <code>src/lib/api.js</code>, which attaches the bearer token and the private room token when present. On a 401 it calls <code>/api/auth/refresh-token</code> with the cookie and replays the request. If refresh fails, the user is sent to <code>/login</code>.</p>
+<h3>Authorization gates</h3>
+<p>Public routes pass straight through. Others run <code>protect</code> (JWT), then <code>allowRoles</code>, then <code>resolveCompanyContext</code> for companies. Admin Private Room routes add <code>verifyPrivateRoom</code> and write an AuditLog entry.</p>
+<h3>Errors and logging</h3>
+<p>Errors return <code>{ success:false, message, code, errors[] }</code>. Validation failures return 400 with field-level details. Admin Private Room actions are persisted to the <code>AuditLog</code> collection; other logging goes to stdout.</p></section>
+
+<section id="c3"><div class="ch">Chapter 3</div><h2>Repository map</h2>
+<p>The repo <code>marketplace/</code> holds <code>frontend/</code>, <code>backend/</code>, <code>docs/</code>, <code>bunfig.toml</code> and the README.</p>
+<ul><li><b>frontend/src/components</b>: auth, dashboard, layout (ProtectedRoute), leads, modals, offers, payment-verification, site, ui (37 primitives).</li><li><b>frontend/src/lib</b>: api.js, auth.jsx, socket.jsx, approval-window.js, media.js, lead-notes.js, adminCompanyContext.js, utils.js.</li><li><b>frontend/src/routes</b>: 90 file-based routes (admin.*, company.*, earner.*, cmc.*, career.*, public pages).</li><li><b>backend/src</b>: config, constants, controllers (17), emails, middleware, models (21), routes (20), services, utils, validators, app.js, server.js.</li><li><b>backend/test</b>: <code>emailVerificationAuth.test.js</code>.</li></ul>
+<h3>Where to make common changes</h3>
+<div class="tw"><table><tr><th>Task</th><th>Touch first</th><th>Then</th></tr>
+<tr><td>New page</td><td><code>frontend/src/routes/&lt;path&gt;.jsx</code></td><td><code>sidebar-nav.jsx</code></td></tr>
+<tr><td>New endpoint</td><td>routes + controller in backend</td><td>validators, <code>api.js</code></td></tr>
+<tr><td>New field or model</td><td><code>backend/src/models</code></td><td>controllers, forms</td></tr>
+<tr><td>Lead lifecycle rule</td><td><code>lead.service.js</code>, <code>lead.controller.js</code></td><td><code>lead-notes.js</code>, leads components</td></tr>
+<tr><td>Auth change</td><td><code>auth.controller.js</code>, <code>auth.middleware.js</code></td><td><code>auth.jsx</code>, ProtectedRoute</td></tr>
+<tr><td>New email</td><td><code>backend/src/emails</code></td><td><code>email.service.js</code></td></tr></table></div></section>
+
+<section id="c4"><div class="ch">Chapter 4</div><h2>Technology stack</h2>
+<div class="tw"><table><tr><th>Layer</th><th>Technology</th></tr>
+<tr><td>UI and build</td><td>React 19.2, Vite 7.3, TanStack Router 1.168</td></tr>
+<tr><td>Styling</td><td>Tailwind CSS 4.2, Radix UI, Lucide, CVA, tw-animate-css</td></tr>
+<tr><td>Data and forms</td><td>TanStack Query 5.83, Axios 1.17, React Hook Form 7.71, Zod 3.24</td></tr>
+<tr><td>Visuals</td><td>Framer Motion 12, Recharts 2.15, Embla, Sonner, date-fns</td></tr>
+<tr><td>Server</td><td>Node.js ESM, Express 5.2, Mongoose 9.7, Socket.IO 4.8</td></tr>
+<tr><td>Security</td><td>jsonwebtoken, bcrypt/bcryptjs, helmet, cors, express-rate-limit, express-validator, disposable-email-domains</td></tr>
+<tr><td>Files and mail</td><td>Multer 2, Cloudinary 2.10, PDFKit 0.19, Resend 6.14, Nodemailer 9</td></tr>
+<tr><td>Auth extras</td><td>googleapis (Google login, not yet configured)</td></tr>
+<tr><td>Testing</td><td>node:test, mongodb-memory-server 11, Playwright</td></tr></table></div>
+<div class="note">Supply-chain guard: <code>bunfig.toml</code> sets <code>minimumReleaseAge = 86400</code>, holding back packages published in the last 24 hours. The project itself uses npm with lockfiles.</div></section>
+
+<section id="c5"><div class="ch">Chapter 5</div><h2>Frontend</h2>
+<p>Providers wrap the app in this order: QueryClient, Auth, Socket, Router. TanStack's Vite plugin regenerates <code>routeTree.gen.js</code> from files in <code>src/routes</code>.</p>
+<div class="tw"><table><tr><th>Domain</th><th>Routes</th><th>Highlights</th></tr>
+<tr><td>Public</td><td>24</td><td>Landing, marketplace, offer pages, login, registration, email verification, password reset, error screens.</td></tr>
+<tr><td>Earner</td><td>14</td><td>Overview, analytics, offers, submit-lead, leads, links, withdrawals, referrals, profile.</td></tr>
+<tr><td>Company</td><td>17</td><td>Offers CRUD, lead pipeline and triage, affiliates, profile. Applications, campaigns, creatives, reports are <span class="pill">PARTIAL</span> (mock).</td></tr>
+<tr><td>Admin</td><td>26</td><td>Companies, users, leads, payment verification, marketplace, CMC, search engine, disputes, plus 9 Private Room routes. Admin campaigns is <span class="pill">PARTIAL</span>.</td></tr>
+<tr><td>CMC and Career</td><td>9</td><td>Registration, login, CMC and influencer dashboards.</td></tr></table></div>
+<h3>State and data flow</h3>
+<ul><li>React Query keys are scoped by domain; mutations invalidate related caches.</li><li><code>auth.jsx</code> exposes <code>user, isAuthenticated, loading, login, logout, refreshUser</code>.</li><li>Socket events: <code>new_message</code>, <code>notification_received</code>, <code>lead_status_updated</code>.</li><li><code>approval-window.js</code> ticks every second for countdowns without polling the server.</li></ul></section>
+
+<section id="c6"><div class="ch">Chapter 6</div><h2>Backend</h2>
+<p><code>server.js</code> connects to MongoDB, creates the HTTP server, attaches Socket.IO and listens on <code>PORT</code> (default 5000). <code>app.js</code> builds the middleware chain and mounts 20 routers.</p>
+<h3>Middleware order</h3>
+<p>helmet, cookieParser, cors, express.json, static uploads, routes with domain middleware, controller, global error handler. CORS reads <code>CLIENT_ORIGIN</code> (comma-separated), treats <code>localhost</code> and <code>127.0.0.1</code> as equivalent and allows requests with no origin.</p>
+<h3>Mounted routers</h3>
+<p><code>/api/auth</code>, <code>/api/admin/private</code> (two routers), <code>/api/admin</code> (two routers), <code>/api/dashboard</code>, <code>/api/offers</code>, <code>/api/leads</code>, <code>/api/analytics</code>, <code>/api/referrals</code>, <code>/api/withdrawals</code>, <code>/api/payment-verifications</code>, <code>/api/notifications</code>, <code>/api/conversations</code>, <code>/api/messages</code>, <code>/api/upload</code>, <code>/api/contact</code>, <code>/api/business-onboarding</code>, <code>/api/marketplace</code>, <code>/api/search-analytics</code>.</p>
+<h3>Guards</h3>
+<ul><li><code>protect</code>: verifies bearer JWT, loads the user, rejects suspended or unverified accounts.</li><li><code>allowRoles(...)</code>: 403 on role mismatch.</li><li><code>optionalAuth</code>: used for search analytics.</li><li><code>verifyPrivateRoom</code>: checks the token signature, the <code>PrivateRoomSession</code> record and inactivity timeout.</li></ul>
+<h3>Uploads, email and PDFs</h3>
+<p>Avatars and chat files go to local disk; company logos are buffered in memory and streamed to Cloudinary. Limits: 5 MB images, 10 MB documents; JPEG, PNG, WebP and PDF only. Email uses Resend with a Nodemailer SMTP fallback. Company registration produces a PDF certificate attached alongside the Business Partner Kit.</p>
+<h3>Auto-expiry</h3>
+<p><code>expirePendingLeads</code> in <code>lead.service.js</code> handles leads still in Lead Submitted after 48 hours, flagging or transitioning them for admin review.</p></section>
+
+<section id="c7"><div class="ch">Chapter 7</div><h2>API reference</h2>
+<p>120 endpoints in total. Summary by domain; full paths include the <code>/api</code> prefix.</p>
+<div class="tw"><table><tr><th>Domain</th><th>Prefix</th><th>Key endpoints</th></tr>
+<tr><td>Health</td><td><code>/api/health</code></td><td>GET liveness probe.</td></tr>
+<tr><td>Auth</td><td><code>/api/auth</code></td><td>register-earner, register-company, register-cmc, register-influencer, login (rate limited), google-login, verify-email/:token, resend-verification, forgot-password, reset-password/:token, refresh-token, logout, me, change-password.</td></tr>
+<tr><td>Dashboard</td><td><code>/api/dashboard</code></td><td>earner, company, admin, admin/financials, admin/users, admin/companies, admin/leads, admin/disputes, admin/retention.</td></tr>
+<tr><td>Offers</td><td><code>/api/offers</code></td><td>POST, PUT/DELETE :offerId, GET my-offers, GET feed, GET :offerId.</td></tr>
+<tr><td>Leads</td><td><code>/api/leads</code></td><td>submit, earner and company lists, affiliates, detail, PATCH status, request-info, request-docs, close-deal, notes, dispute, activity, public/stats, admin batch-update.</td></tr>
+<tr><td>Payment verification</td><td><code>/api/payment-verifications</code></td><td>admin/review, mine, company-proof, earner-proof, :id, :id/approve.</td></tr>
+<tr><td>Admin</td><td><code>/api/admin</code></td><td>users, companies, leads and override, disputes and resolve, marketplace, leaderboard, settings, CMC submissions and ambassadors.</td></tr>
+<tr><td>Private Room</td><td><code>/api/admin/private</code></td><td>login, logout, session, audit-logs, companies, company/context, company/exit.</td></tr>
+<tr><td>Search analytics</td><td><code>/api/search-analytics</code></td><td>record, admin stats, top-searches, unmet-demand, category-demand, company-demand, history.</td></tr>
+<tr><td>Referrals</td><td><code>/api/referrals</code></td><td>create, list, summary, influencer-dashboard, cmc-dashboard, cmc-video-submissions.</td></tr>
+<tr><td>Withdrawals</td><td><code>/api/withdrawals</code></td><td>create, list, summary, cancel.</td></tr>
+<tr><td>Uploads</td><td><code>/api/upload</code></td><td>company-logo (Cloudinary), avatar (disk), chat-file (disk).</td></tr>
+<tr><td>Comms</td><td>various</td><td>contact, business-onboarding step/current, notifications, conversations, messages.</td></tr></table></div>
+<div class="note">The routes <code>company-proof</code>, <code>earner-proof</code>, <code>:id</code> and <code>:id/approve</code> are called by the frontend and described in the feature docs, but the reference table lists only two payment-verification endpoints. Confirm against source when you next update this handbook.</div></section>
+
+<section id="c8"><div class="ch">Chapter 8</div><h2>Data models</h2>
+<p>MongoDB Atlas via Mongoose 9.7. 21 models; the core ones are below. All use timestamps.</p>
+<div class="tw"><table><tr><th>Model</th><th>Purpose and main fields</th></tr>
+<tr><td><code>User</code></td><td>Credentials and status. <code>role</code>: earner, company, admin, influencer, cmc. <code>status</code>: pending_verification, active, suspended, inactive. Tokens and password are <code>select:false</code>. Unique email.</td></tr>
+<tr><td><code>Earner</code></td><td>userId, phone, unique referralCode, referredBy, payoutDetails (UPI, bank, IFSC), metrics (totalEarnings, availableBalance, pendingBalance, leads), score (default 5.0).</td></tr>
+<tr><td><code>Company</code></td><td>userId, companyName, contactPerson, businessCategory (8 values), logo, gstin, city, verificationStatus (pending, approved, rejected), metrics.</td></tr>
+<tr><td><code>CMC</code>, <code>Influencer</code></td><td>College details and rewards; social platforms and conversion totals.</td></tr>
+<tr><td><code>Offer</code></td><td>companyId, title, category, commissionType (percentage or fixed), commissionAmount, price range, status (active, paused, archived), leadCriteria.</td></tr>
+<tr><td><code>Lead</code></td><td>offerId, companyId, earnerId, customer fields, requirementDetails, status (9 values incl. Disputed), dealValue, commissionAmount, rejectionReason, approvalDeadline, notes, activityLog.</td></tr>
+<tr><td><code>PaymentVerification</code></td><td>Unique leadId, amount, companyProof, earnerReceipt, status: WAITING_COMPANY_PROOF, WAITING_EARNER_PROOF, UNDER_ADMIN_REVIEW, APPROVED, REJECTED.</td></tr>
+<tr><td><code>withdrawal</code></td><td>earnerId, amount (min 100), payoutMethod (bank_transfer or upi), status (pending, processing, completed, cancelled, rejected).</td></tr>
+<tr><td><code>PrivateRoomSession</code>, <code>AuditLog</code></td><td>Session hash with TTL index on <code>expiresAt</code>; audit record with adminId, action, target, IP and diff.</td></tr>
+<tr><td>Others</td><td>conversation, message, notification, referral, InfluencerLedger, SearchAnalytics, MarketplaceCompany, BusinessOnboarding, CampusMarketingChampsStatus, CMCVideoSubmission.</td></tr></table></div></section>
+
+<section id="c9"><div class="ch">Chapter 9</div><h2>Feature catalog</h2>
+<p>All 20 MVP features are marked verified in the source review.</p>
+<div class="tw"><table><tr><th>ID</th><th>Feature</th><th>Core route</th></tr>
+<tr><td>01</td><td>Public marketplace and discovery</td><td><code>/marketplace</code></td></tr>
+<tr><td>02</td><td>Multi-role registration</td><td><code>/register</code></td></tr>
+<tr><td>03</td><td>Email verification and activation</td><td><code>/verify-email</code></td></tr>
+<tr><td>04</td><td>Dual-token authentication</td><td><code>/login</code></td></tr>
+<tr><td>05</td><td>Company profile and logo upload</td><td><code>/company/profile</code></td></tr>
+<tr><td>06</td><td>Offer builder</td><td><code>/company/offers/create</code></td></tr>
+<tr><td>07</td><td>Lead submission</td><td><code>/earner/submit-lead</code></td></tr>
+<tr><td>08</td><td>48-hour approval window</td><td><code>/company/leads</code></td></tr>
+<tr><td>09</td><td>Lead review and triage</td><td><code>/company/leads/$leadId/view</code></td></tr>
+<tr><td>10</td><td>Deal closure and commission</td><td>same lead view</td></tr>
+<tr><td>11</td><td>Multi-party payment verification</td><td><code>/admin/payment-verification</code></td></tr>
+<tr><td>12</td><td>Balances and withdrawals</td><td><code>/earner/withdrawals</code></td></tr>
+<tr><td>13</td><td>Referral links and downline</td><td><code>/earner/links</code></td></tr>
+<tr><td>14</td><td>Campus Marketing Champions</td><td><code>/cmc/dashboard</code></td></tr>
+<tr><td>15</td><td>Influencer ledger</td><td><code>/career/dashboard</code></td></tr>
+<tr><td>16</td><td>Real-time lead chat</td><td>lead view + Socket.IO</td></tr>
+<tr><td>17</td><td>Notifications</td><td>topbar inbox</td></tr>
+<tr><td>18</td><td>Search demand analytics</td><td><code>/admin/search-engine</code></td></tr>
+<tr><td>19</td><td>Admin operations and disputes</td><td><code>/admin/*</code></td></tr>
+<tr><td>20</td><td>Private Room and audit vault</td><td><code>/admin/private</code></td></tr></table></div>
+<h3>Payment verification flow</h3>
+<ul><li>Company closes the deal, pays the commission and uploads proof (UTR or receipt); lead moves to Commission Pending.</li><li>Earner confirms receipt and uploads a statement; status becomes UNDER_ADMIN_REVIEW.</li><li>Admin compares both proofs side by side and approves; lead becomes Commission Paid and the earner balance is credited.</li></ul></section>
+
+<section id="c10"><div class="ch">Chapter 10</div><h2>Business rules</h2>
+<pre class="mermaid">stateDiagram-v2
+[*] --> LeadSubmitted
+LeadSubmitted --> UnderReview
+LeadSubmitted --> Expired: 48h
+UnderReview --> Approved
+UnderReview --> Rejected
+Approved --> DealClosed
+DealClosed --> CommissionPending
+CommissionPending --> UnderAdminReview
+UnderAdminReview --> CommissionPaid
+Rejected --> Disputed
+Disputed --> Approved
+Disputed --> Rejected</pre>
+<ul><li><b>BR-LD-01</b> Company must act within 48 hours of submission; after that the lead is eligible for reassignment or admin action.</li><li><b>BR-LD-02</b> Earners cannot edit customer phone or email after submission.</li><li><b>BR-LD-03</b> Companies see and update only leads for their own offers.</li><li><b>BR-LD-04</b> Percentage offers: commission = dealValue × rate ÷ 100. Fixed offers: commission = the fixed amount.</li></ul>
+<h3>Accounts, payouts and referrals</h3>
+<ul><li>Unverified login returns 403 <code>EMAIL_NOT_VERIFIED</code>; suspended users are blocked by <code>protect</code>; disposable emails are rejected.</li><li>Minimum withdrawal is ₹100. Requesting a payout moves the amount from available to pending balance; cancel or reject returns it. A UPI ID, or bank account plus IFSC, is required first.</li><li>Each earner gets a permanent code <code>GEN-&lt;suffix&gt;</code>. Signing up with a code records <code>referredBy</code> and creates a <code>referral</code> document. Influencer conversions are written to <code>InfluencerLedger</code>.</li><li>Private Room needs <code>PRIVATE_ROOM_SECRET</code>, expires after 30 minutes idle, and every sensitive action writes an AuditLog before it executes.</li></ul></section>
+
+<section id="c11"><div class="ch">Chapter 11</div><h2>Security</h2>
+<div class="tw"><table><tr><th>Token</th><th>Lifetime</th><th>Secret</th></tr>
+<tr><td>Access</td><td>15 min to 1 h</td><td><code>JWT_ACCESS_SECRET</code></td></tr>
+<tr><td>Refresh (httpOnly, SameSite=Lax, Secure in prod)</td><td>7 days</td><td><code>JWT_REFRESH_SECRET</code></td></tr>
+<tr><td>Email verification</td><td>24 h</td><td><code>JWT_EMAIL_SECRET</code></td></tr>
+<tr><td>Password reset</td><td>1 h</td><td><code>JWT_RESET_SECRET</code></td></tr>
+<tr><td>Private Room</td><td>30 min idle</td><td><code>PRIVATE_ROOM_SECRET</code></td></tr></table></div>
+<ul><li>Passwords use bcrypt with 10 to 12 rounds and are hidden from queries by default.</li><li>Backend RBAC is authoritative; <code>ProtectedRoute</code> on the frontend is only a UX gate.</li><li>Private Room login is limited to 5 failed attempts per 15 minutes.</li><li>Helmet sets nosniff and frame protection; CORS is limited to <code>CLIENT_ORIGIN</code> with credentials.</li><li>express-validator checks every write endpoint; Zod validates forms in the browser.</li><li>Uploads are restricted by mime type and size; public logos go to Cloudinary.</li></ul></section>
+
+<section id="c12"><div class="ch">Chapter 12</div><h2>Development setup</h2>
+<p>Needs Node 18.18+ (20 or 22 recommended), npm 9+, Git and MongoDB 6+ or an Atlas URI. Run <code>npm install</code> in both <code>frontend</code> and <code>backend</code>, create the two <code>.env</code> files, then start each with <code>npm run dev</code>. Backend runs on :5000, frontend on :5173.</p>
+<div class="tw"><table><tr><th>Variable</th><th>Purpose</th><th>Required</th></tr>
+<tr><td><code>PORT</code></td><td>API port</td><td>No (5000)</td></tr>
+<tr><td><code>NODE_ENV</code></td><td>Environment mode</td><td>Yes</td></tr>
+<tr><td><code>CLIENT_ORIGIN</code></td><td>Allowed CORS origins</td><td>Yes</td></tr>
+<tr><td><code>MONGO_URI</code></td><td>Database connection</td><td>Yes</td></tr>
+<tr><td><code>JWT_ACCESS_SECRET</code> <code>JWT_REFRESH_SECRET</code> <code>JWT_EMAIL_SECRET</code> <code>JWT_RESET_SECRET</code></td><td>Token signing (32+ chars)</td><td>Yes</td></tr>
+<tr><td><code>PRIVATE_ROOM_SECRET</code></td><td>Private Room key</td><td>For admin</td></tr>
+<tr><td><code>RESEND_API_KEY</code>, <code>SMTP_*</code>, <code>EMAIL_FROM</code></td><td>Email delivery with fallback</td><td>One path needed</td></tr>
+<tr><td><code>CLOUDINARY_*</code></td><td>Logo uploads</td><td>Optional locally</td></tr>
+<tr><td><code>REACT_APP_GROQ_API_KEY</code></td><td>ChatWidget AI</td><td>Optional</td></tr></table></div>
+<div class="note">Commands: frontend <code>npm run build</code>, <code>npm run lint</code>, <code>npm run format</code>; backend <code>node --check src/server.js</code> and <code>node --test test/emailVerificationAuth.test.js</code>. Keep real secrets out of Git. The Groq key is exposed to the browser by design of the current setup.</div></section>
+
+<section id="c13"><div class="ch">Chapter 13</div><h2>Deployment and operations</h2>
+<ul><li><b>Frontend:</b> Vercel, root <code>frontend</code>, build <code>npm run build</code>, output <code>dist</code>, Node 20 or 22. <code>vercel.json</code> rewrites all non-asset paths to <code>/index.html</code>.</li><li><b>Backend:</b> Render or a VPS running <code>node src/server.js</code> on <code>process.env.PORT</code>. Use PM2, Docker or systemd for restarts.</li><li><b>CORS:</b> set <code>CLIENT_ORIGIN=https://www.genaxle.com,https://genaxle.com</code>.</li><li><b>Health:</b> poll <code>GET /api/health</code> every 60 seconds; expect <code>{"success":true,"message":"GenAxle Backend Running"}</code>.</li><li><b>Rollback:</b> promote the previous Vercel deployment; redeploy the previous backend commit; enable Atlas daily snapshots with point-in-time recovery.</li></ul></section>
+
+<section id="c14"><div class="ch">Chapter 14</div><h2>Testing and QA</h2>
+<p>The only automated backend suite is <code>emailVerificationAuth.test.js</code> (491 lines, node:test). It covers unverified login rejection for earners and companies, verified login, suspended and inactive blocking, invalid and expired verification tokens, token isolation and the unconfigured Google login guard. Playwright is configured (Chromium, one worker) but coverage beyond auth is not automated.</p>
+<div class="tw"><table><tr><th>Domain</th><th>Automated</th><th>Status</th></tr>
+<tr><td>Auth, RBAC, email verification</td><td>Yes</td><td>Verified</td></tr>
+<tr><td>Lead submission and 48h clock</td><td>No</td><td>Needs suite</td></tr>
+<tr><td>Payment verification</td><td>No</td><td>Needs suite</td></tr>
+<tr><td>Private Room</td><td>No</td><td>Needs suite</td></tr>
+<tr><td>Withdrawals</td><td>No</td><td>Needs suite</td></tr></table></div>
+<h3>Pre-release manual checklist</h3>
+<ul><li>Earner registers, verifies email, logs in, submits a lead and sees the countdown.</li><li>Company approves, closes the deal and uploads payment proof; lead is Commission Pending.</li><li>Earner uploads receipt; admin approves; balance increases and the lead is Commission Paid.</li><li>Admin enters the Private Room and finds the login audit record.</li></ul></section>
+
+<section id="c15"><div class="ch">Chapter 15</div><h2>Troubleshooting</h2>
+<div class="tw"><table><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+<tr><td>403 Blocked by CORS</td><td><code>CLIENT_ORIGIN</code> mismatch</td><td>Add the exact frontend origin.</td></tr>
+<tr><td>403 EMAIL_NOT_VERIFIED</td><td>Email not verified</td><td>Resend verification or use the token link.</td></tr>
+<tr><td>401 loop on dashboards</td><td>Refresh cookie missing or secret mismatch</td><td>Clear cookies, log in again, check <code>JWT_REFRESH_SECRET</code>.</td></tr>
+<tr><td>403 in Private Room</td><td>Missing or expired token</td><td>Sign in again at <code>/admin/private</code>.</td></tr>
+<tr><td>ECONNREFUSED to Mongo</td><td>Database not running</td><td>Start MongoDB or Docker.</td></tr>
+<tr><td>bad auth</td><td>Wrong URI credentials</td><td>Fix <code>MONGO_URI</code>.</td></tr>
+<tr><td>Memory server failed to start</td><td>Binary download timeout</td><td>Pre-cache the binary or use a local MongoDB.</td></tr>
+<tr><td>No verification email</td><td>Bad Resend key or SMTP</td><td>Check logs for <code>[Email Error]</code>.</td></tr>
+<tr><td>Prettier: Delete ␍</td><td>CRLF checkout</td><td>Add <code>.gitattributes</code> with <code>* text=auto eol=lf</code>.</td></tr>
+<tr><td>404 on deep routes in Vercel</td><td>Missing rewrite</td><td>Verify <code>vercel.json</code>.</td></tr></table></div>
+<p>Never run <code>dropDatabase()</code> or unreviewed update scripts on production; dry-run with <code>find()</code> first.</p></section>
+
+<section id="c16"><div class="ch">Chapter 16</div><h2>Integrations</h2>
+<div class="tw"><table><tr><th>Service</th><th>Use</th><th>Failure behavior</th></tr>
+<tr><td>MongoDB Atlas</td><td>All 21 collections</td><td>Server exits if the first connection fails.</td></tr>
+<tr><td>Cloudinary</td><td>Company logos</td><td>Returns an error message, no crash.</td></tr>
+<tr><td>Resend</td><td>Verification, reset, welcome emails with PDFs</td><td>Falls back to SMTP.</td></tr>
+<tr><td>Nodemailer SMTP</td><td>Fallback mail</td><td>Port 465 or 587.</td></tr>
+<tr><td>Socket.IO</td><td>Chat, live notifications (<code>join_conversation</code>, <code>send_message</code>, <code>new_message</code>, <code>notification_received</code>)</td><td>Client reconnects with backoff.</td></tr>
+<tr><td>Groq</td><td>ChatWidget AI, called from the browser</td><td>Offline replies without a key.</td></tr>
+<tr><td>Google OAuth</td><td>Social login</td><td>501 <code>GOOGLE_LOGIN_NOT_CONFIGURED</code> until set up.</td></tr>
+<tr><td>PDFKit</td><td>Registration certificates, in process</td><td>None external.</td></tr></table></div></section>
+
+<section id="c17"><div class="ch">Chapter 17</div><h2>Data lifecycle and privacy</h2>
+<div class="tw"><table><tr><th>Category</th><th>Sensitivity</th><th>Access</th></tr>
+<tr><td>Credentials and tokens</td><td>Critical</td><td>Hidden by default, never sent to the frontend.</td></tr>
+<tr><td>Customer lead PII</td><td>High</td><td>Referring earner, target company, admins.</td></tr>
+<tr><td>Payout and payment data</td><td>High</td><td>Owning earner and verifying admins.</td></tr>
+<tr><td>Audit logs</td><td>High</td><td>Admin inside the Private Room only.</td></tr>
+<tr><td>Company identity</td><td>Medium</td><td>Public profile; GSTIN for company and admin only.</td></tr>
+<tr><td>Search analytics</td><td>Low</td><td>Aggregated.</td></tr></table></div>
+<p>Data flows from Zod validation in the browser, over TLS, through express-validator, sanitization and hashing, into MongoDB, with audit records for admin actions. Private Room sessions expire by TTL index. Audit logs, leads and payment verifications are kept permanently for disputes and reconciliation.</p></section>
+
+<section id="c18"><div class="ch">Chapter 18</div><h2>Assessment and roadmap</h2>
+<h3>Known gaps</h3>
+<ul><li><b>Mock features:</b> company campaigns, creatives, reports, applications and admin campaigns have no backend (medium).</li><li><b>Test gaps:</b> no automated tests for the lead lifecycle or payment verification (high); memory-server download timeouts (medium).</li><li><b>Chat uploads on local disk:</b> lost on container restart or across instances (high).</li><li><b>Socket.IO single node:</b> no Redis adapter, so no horizontal scaling (medium).</li><li><b>Hygiene:</b> CRLF lint errors on Windows; Vite bundle warnings (index.js 2,018 kB, ui.js 596 kB); Google login unconfigured (low).</li></ul>
+<h3>Roadmap</h3>
+<div class="tw"><table><tr><th>Priority</th><th>Task</th><th>Window</th><th>Scope</th></tr>
+<tr><td>P0</td><td>Chat uploads to Cloudinary or S3</td><td>Nov 1 – 14, 2026</td><td>2 days</td></tr>
+<tr><td>P0</td><td>Lead and payment verification test suites</td><td>Nov 8 – 21, 2026</td><td>4 days</td></tr>
+<tr><td>P1</td><td>Socket.IO Redis adapter</td><td>Nov 22 – Dec 1, 2026</td><td>3 days</td></tr>
+<tr><td>P1</td><td>Persist company marketing and report APIs</td><td>Dec 1 – 21, 2026</td><td>5 days</td></tr>
+<tr><td>P2</td><td>Route-level code splitting</td><td>Dec 15 – 28, 2026</td><td>2 days</td></tr>
+<tr><td>P2</td><td>Google OAuth in production</td><td>Dec 22 – 28, 2026</td><td>1 week window</td></tr>
+<tr><td>P2</td><td><code>.gitattributes</code> line endings</td><td>Any time</td><td>1 hour</td></tr></table></div></section>
+
+<section id="c19"><div class="ch">Chapter 19</div><h2>Glossary</h2>
+<div class="tw"><table><tr><th>Term</th><th>Meaning</th></tr>
+<tr><td>Earner / Champion</td><td>Affiliate who submits leads and earns commission. Champion is the brand synonym, used for verified high performers (score 4.5 or more).</td></tr>
+<tr><td>Company</td><td>Business that publishes offers, reviews leads and pays commission.</td></tr>
+<tr><td>Offer</td><td>Service listing with a percentage or fixed commission.</td></tr>
+<tr><td>Lead</td><td>Prospective customer submitted by an earner for an offer.</td></tr>
+<tr><td>Approval window</td><td>The 48-hour review clock stored as <code>Lead.approvalDeadline</code>.</td></tr>
+<tr><td>Payment verification</td><td>Dual-proof audit where company and earner each upload evidence for admin approval.</td></tr>
+<tr><td>UTR</td><td>Bank transaction reference for IMPS, NEFT, RTGS or UPI transfers.</td></tr>
+<tr><td>Private Room</td><td>Elevated admin area with its own key, session token and audit trail.</td></tr>
+<tr><td>CMC</td><td>Campus Marketing Champion, a student promoter rewarded for approved videos.</td></tr>
+<tr><td>Dual-token auth</td><td>In-memory access token plus httpOnly refresh cookie.</td></tr>
+<tr><td>TTL index</td><td>MongoDB index that deletes expired documents automatically.</td></tr></table></div></section>
+
+</main></div>
+<footer>GenAxle Technical Handbook · Version 1.0 · Verified October 15, 2026 · Commit 53d2120<br>Chapters condensed from the 20-part documentation suite.</footer>
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+</body></html>
