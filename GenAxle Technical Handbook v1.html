@@ -4,18 +4,16 @@
 <title>GenAxle Technical Handbook · Version 1</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Instrument+Sans:wght@400;600&display=swap">
 <style>
-:root{--bg:#f4f5fa;--page:#fff;--ink:#1a1d3a;--mute:#5d6283;--line:#d9dcec;--acc:#2f3dbd;--hi:#f0b429;--code:#eceefa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1020;--page:#161933;--ink:#e8eaf8;--mute:#9aa0c7;--line:#2b2f55;--acc:#8c98ff;--hi:#f0b429;--code:#1f2347}}
-:root[data-theme="dark"]{--bg:#0e1020;--page:#161933;--ink:#e8eaf8;--mute:#9aa0c7;--line:#2b2f55;--acc:#8c98ff;--hi:#f0b429;--code:#1f2347}
+:root{--bg:#fff;--page:#fff;--ink:#28231f;--mute:#71645b;--line:#f2d7c2;--acc:#d65d0e;--hi:#f28c28;--code:#fff2e8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Newsreader,Georgia,serif}
-.cover{min-height:100vh;display:grid;align-content:center;padding:8vw;background:linear-gradient(160deg,#1a1d3a 0 62%,#2f3dbd);color:#f4f5fa;position:relative}
+.cover{min-height:100vh;display:grid;align-content:center;padding:8vw;background:linear-gradient(145deg,#f07824,#d65d0e);color:#fff;position:relative}
 .cover:after{content:"";position:absolute;right:8vw;top:0;bottom:0;width:10px;background:var(--hi)}
-.cover small{font:600 14px Instrument Sans,sans-serif;letter-spacing:.04em;color:#b9bff0}
+.cover small{font:600 14px Instrument Sans,sans-serif;letter-spacing:.04em;color:#fff1e5}
 .cover h1{font-size:clamp(48px,9vw,112px);line-height:.98;margin:.3em 0 .2em;font-weight:600;max-width:9em}
-.cover p{max-width:34em;color:#cfd3f5;font-size:21px}
-.meta{margin-top:40px;font:14px Instrument Sans,sans-serif;color:#b9bff0;display:grid;gap:4px}
+.cover p{max-width:34em;color:#fff1e5;font-size:21px}
+.meta{margin-top:40px;font:14px Instrument Sans,sans-serif;color:#fff1e5;display:grid;gap:4px}
 .wrap{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:40px;padding:0 20px}
 nav{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:32px 0;font:14px/1.4 Instrument Sans,sans-serif}
 nav b{display:block;margin-bottom:10px}
@@ -37,8 +35,32 @@ code{font:13.5px ui-monospace,Menlo,monospace;background:var(--code);padding:1px
 .pill{font:600 12px Instrument Sans,sans-serif;padding:2px 8px;border-radius:99px;background:var(--code);color:var(--acc)}
 pre.mermaid{overflow-x:auto;background:var(--code);padding:16px;border-radius:4px;font-size:13px}
 footer{text-align:center;padding:40px 20px 60px;font:14px Instrument Sans,sans-serif;color:var(--mute)}
+#password-gate{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;background:#fff}
+body:not(.unlocked)>:not(#password-gate){visibility:hidden}
+.gate-card{width:min(100%,420px);padding:36px;border:1px solid var(--line);border-top:6px solid var(--hi);border-radius:10px;box-shadow:0 18px 55px #6b35151a}
+.gate-card small{font:600 13px Instrument Sans,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.gate-card h1{margin:8px 0;font-size:34px;line-height:1.15}
+.gate-card p{margin:0 0 22px;color:var(--mute);font:15px/1.5 Instrument Sans,sans-serif}
+.gate-card label{display:block;margin-bottom:7px;font:600 14px Instrument Sans,sans-serif}
+.gate-card input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font:16px Instrument Sans,sans-serif}
+.gate-card input:focus{outline:3px solid #f28c2840;border-color:var(--acc)}
+.gate-card button{width:100%;margin-top:14px;padding:12px;border:0;border-radius:6px;background:var(--acc);color:#fff;font:600 15px Instrument Sans,sans-serif;cursor:pointer}
+.gate-card button:hover{background:#b94b08}
+#password-error{min-height:1.4em;margin:10px 0 0;color:#b42318;font:14px Instrument Sans,sans-serif}
 @media(max-width:860px){.wrap{display:block}nav{position:static;max-height:none;padding:20px 0}section{padding:28px 22px}h2{font-size:30px}.cover:after{display:none}}
 </style></head><body>
+
+<section id="password-gate" aria-labelledby="gate-title">
+<form class="gate-card" id="password-form">
+<small>GenAxle Technical Handbook</small>
+<h1 id="gate-title">Welcome</h1>
+<p>Enter the password to open the handbook.</p>
+<label for="handbook-password">Password</label>
+<input id="handbook-password" name="password" type="password" autocomplete="current-password" required autofocus>
+<button type="submit">Open handbook</button>
+<p id="password-error" role="alert" aria-live="polite"></p>
+</form>
+</section>
 
 <header class="cover">
 <small>Engineering Reference · Version 1.0</small>
@@ -315,7 +337,7 @@ Disputed --> Rejected</pre>
 <style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
 <script src="/_runtime/mermaid-11.16.1.min.js"></script>
 <script>(function(){
-var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+var CFG={"palettes":{"light":{"surface":"#fff","text":"#28231f","line":"#f2d7c2","border":"#d65d0e","bg":"#fff"},"dark":{"surface":"#fff","text":"#28231f","line":"#f2d7c2","border":"#d65d0e","bg":"#fff"}}};
 if(typeof mermaid==='undefined')return;
 var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
 if(!pres.length)return;
@@ -387,4 +409,22 @@ if(mq&&mq.addEventListener)mq.addEventListener('change',render);
 if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
 })();</script>
 <!--claude-mermaid-runtime-end-->
+<script>
+(function(){
+var form=document.getElementById('password-form');
+var input=document.getElementById('handbook-password');
+var error=document.getElementById('password-error');
+form.addEventListener('submit',function(event){
+event.preventDefault();
+if(input.value==='GEN2026'){
+document.body.classList.add('unlocked');
+document.getElementById('password-gate').remove();
+}else{
+error.textContent='Incorrect password. Please try again.';
+input.value='';
+input.focus();
+}
+});
+})();
+</script>
 </body></html>
